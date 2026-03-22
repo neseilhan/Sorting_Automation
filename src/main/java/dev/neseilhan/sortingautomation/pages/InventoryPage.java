@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class InventoryPage extends BasePage {
 
-    private final By productsTitle = By.cssSelector("[data-test='title']");
+    private final By productsTitle = By.xpath("//span[@data-test='title' and text()='Products']");
     private final By sortDropdown = By.cssSelector("[data-test='product-sort-container']");
     private final By inventoryItems = By.cssSelector("[data-test='inventory-item-description']");
     private final By inventoryItemNames = By.cssSelector("[data-test='inventory-item-name']");
@@ -44,7 +44,6 @@ public class InventoryPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-
     public List<Double> getItemPrices() {
         return waitForAllVisible(inventoryItemPrices)
                 .stream()
@@ -67,6 +66,7 @@ public class InventoryPage extends BasePage {
     public boolean isShoppingCartDisplayed() {
         return waitForVisibility(shoppingCartLink).isDisplayed();
     }
+
     public WebElement getFirstItemNameElement() {
         return waitForAllVisible(inventoryItemNames).get(0);
     }

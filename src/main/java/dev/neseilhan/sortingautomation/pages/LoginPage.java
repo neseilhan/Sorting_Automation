@@ -9,7 +9,7 @@ public class LoginPage extends BasePage {
     private final By usernameInput = By.cssSelector("[data-test='username']");
     private final By passwordInput = By.cssSelector("[data-test='password']");
     private final By loginButton = By.cssSelector("[data-test='login-button']");
-    private final By loginLogo = By.className("login_logo");
+    private final By loginLogo = By.xpath("//div[@class='login_logo' and text()='Swag Labs']");
 
     public LoginPage(WebDriver driver) {
         super(driver);

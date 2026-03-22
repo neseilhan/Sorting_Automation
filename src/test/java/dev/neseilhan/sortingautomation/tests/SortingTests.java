@@ -1,14 +1,13 @@
 package dev.neseilhan.sortingautomation.tests;
 
+import dev.neseilhan.sortingautomation.constants.SortOption;
 import dev.neseilhan.sortingautomation.listeners.TestListener;
+import dev.neseilhan.sortingautomation.utils.SortUtils;
 import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Listeners(TestListener.class)
@@ -20,27 +19,39 @@ public class SortingTests extends BaseTest {
     @Story("Sort by Name Ascending")
     @Description("Verify that products are sorted by name in ascending alphabetical order (A to Z).")
     @Severity(SeverityLevel.CRITICAL)
-    public void shouldSortByNameAscending() {
-        Allure.step("Verify inventory page is loaded", () ->
-                Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.")
+    public void userShouldSeeProductsSortedByNameAscending() {
+        Allure.step("Given the user is on the inventory page", () -> {
+            Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.");
+            Assert.assertTrue(inventoryPage.isShoppingCartDisplayed(), "Shopping cart icon is not displayed.");
+            Assert.assertTrue(inventoryPage.getInventoryItemCount() > 0, "Inventory item list should not be empty.");
+        });
+
+        Allure.step("When the user selects Name (A to Z) sorting option", () ->
+                inventoryPage.selectSortOption(SortOption.NAME_ASC)
         );
 
-        Allure.step("Select sorting option: Name (A to Z)", () ->
-                inventoryPage.selectSortOption("Name (A to Z)")
+        Allure.step("Then the selected sorting option value should be 'az'", () ->
+                Assert.assertEquals(
+                        inventoryPage.getSelectedSortOptionValue(),
+                        SortOption.NAME_ASC.getValue(),
+                        "Selected sort option value is incorrect for Name (A to Z)."
+                )
         );
 
-        List<String> actualNames = new ArrayList<>();
-        Allure.step("Get actual product names from UI", () ->
-                actualNames.addAll(inventoryPage.getItemNames())
+        List<String> actualNames = inventoryPage.getItemNames();
+
+        Allure.step("And the product names list should not be empty", () ->
+                Assert.assertFalse(actualNames.isEmpty(), "Product name list should not be empty.")
         );
 
-        List<String> expectedNames = new ArrayList<>(actualNames);
-        Allure.step("Sort expected product names in ascending order", () ->
-                Collections.sort(expectedNames)
-        );
+        List<String> expectedNames = SortUtils.sortStringsAscending(actualNames);
 
-        Allure.step("Verify actual product names match expected ascending order", () ->
-                Assert.assertEquals(actualNames, expectedNames, "Items are not sorted by name from A to Z.")
+        Allure.step("And the actual product names should match the expected ascending order", () ->
+                Assert.assertEquals(
+                        actualNames,
+                        expectedNames,
+                        "Items are not sorted by name from A to Z."
+                )
         );
     }
 
@@ -48,27 +59,39 @@ public class SortingTests extends BaseTest {
     @Story("Sort by Name Descending")
     @Description("Verify that products are sorted by name in descending alphabetical order (Z to A).")
     @Severity(SeverityLevel.CRITICAL)
-    public void shouldSortByNameDescending() {
-        Allure.step("Verify inventory page is loaded", () ->
-                Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.")
+    public void userShouldSeeProductsSortedByNameDescending() {
+        Allure.step("Given the user is on the inventory page", () -> {
+            Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.");
+            Assert.assertTrue(inventoryPage.isShoppingCartDisplayed(), "Shopping cart icon is not displayed.");
+            Assert.assertTrue(inventoryPage.getInventoryItemCount() > 0, "Inventory item list should not be empty.");
+        });
+
+        Allure.step("When the user selects Name (Z to A) sorting option", () ->
+                inventoryPage.selectSortOption(SortOption.NAME_DESC)
         );
 
-        Allure.step("Select sorting option: Name (Z to A)", () ->
-                inventoryPage.selectSortOption("Name (Z to A)")
+        Allure.step("Then the selected sorting option value should be 'za'", () ->
+                Assert.assertEquals(
+                        inventoryPage.getSelectedSortOptionValue(),
+                        SortOption.NAME_DESC.getValue(),
+                        "Selected sort option value is incorrect for Name (Z to A)."
+                )
         );
 
-        List<String> actualNames = new ArrayList<>();
-        Allure.step("Get actual product names from UI", () ->
-                actualNames.addAll(inventoryPage.getItemNames())
+        List<String> actualNames = inventoryPage.getItemNames();
+
+        Allure.step("And the product names list should not be empty", () ->
+                Assert.assertFalse(actualNames.isEmpty(), "Product name list should not be empty.")
         );
 
-        List<String> expectedNames = new ArrayList<>(actualNames);
-        Allure.step("Sort expected product names in descending order", () ->
-                expectedNames.sort(Collections.reverseOrder())
-        );
+        List<String> expectedNames = SortUtils.sortStringsDescending(actualNames);
 
-        Allure.step("Verify actual product names match expected descending order", () ->
-                Assert.assertEquals(actualNames, expectedNames, "Items are not sorted by name from Z to A.")
+        Allure.step("And the actual product names should match the expected descending order", () ->
+                Assert.assertEquals(
+                        actualNames,
+                        expectedNames,
+                        "Items are not sorted by name from Z to A."
+                )
         );
     }
 
@@ -76,27 +99,39 @@ public class SortingTests extends BaseTest {
     @Story("Sort by Price Ascending")
     @Description("Verify that products are sorted by price from low to high.")
     @Severity(SeverityLevel.CRITICAL)
-    public void shouldSortByPriceLowToHigh() {
-        Allure.step("Verify inventory page is loaded", () ->
-                Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.")
+    public void userShouldSeeProductsSortedByPriceLowToHigh() {
+        Allure.step("Given the user is on the inventory page", () -> {
+            Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.");
+            Assert.assertTrue(inventoryPage.isShoppingCartDisplayed(), "Shopping cart icon is not displayed.");
+            Assert.assertTrue(inventoryPage.getInventoryItemCount() > 0, "Inventory item list should not be empty.");
+        });
+
+        Allure.step("When the user selects Price (low to high) sorting option", () ->
+                inventoryPage.selectSortOption(SortOption.PRICE_LOW_TO_HIGH)
         );
 
-        Allure.step("Select sorting option: Price (low to high)", () ->
-                inventoryPage.selectSortOption("Price (low to high)")
+        Allure.step("Then the selected sorting option value should be 'lohi'", () ->
+                Assert.assertEquals(
+                        inventoryPage.getSelectedSortOptionValue(),
+                        SortOption.PRICE_LOW_TO_HIGH.getValue(),
+                        "Selected sort option value is incorrect for Price (low to high)."
+                )
         );
 
-        List<Double> actualPrices = new ArrayList<>();
-        Allure.step("Get actual product prices from UI", () ->
-                actualPrices.addAll(inventoryPage.getItemPrices())
+        List<Double> actualPrices = inventoryPage.getItemPrices();
+
+        Allure.step("And the product prices list should not be empty", () ->
+                Assert.assertFalse(actualPrices.isEmpty(), "Product price list should not be empty.")
         );
 
-        List<Double> expectedPrices = new ArrayList<>(actualPrices);
-        Allure.step("Sort expected product prices in ascending order", () ->
-                Collections.sort(expectedPrices)
-        );
+        List<Double> expectedPrices = SortUtils.sortDoublesAscending(actualPrices);
 
-        Allure.step("Verify actual product prices match expected ascending order", () ->
-                Assert.assertEquals(actualPrices, expectedPrices, "Items are not sorted by price from low to high.")
+        Allure.step("And the actual product prices should match the expected ascending order", () ->
+                Assert.assertEquals(
+                        actualPrices,
+                        expectedPrices,
+                        "Items are not sorted by price from low to high."
+                )
         );
     }
 
@@ -104,27 +139,39 @@ public class SortingTests extends BaseTest {
     @Story("Sort by Price Descending")
     @Description("Verify that products are sorted by price from high to low.")
     @Severity(SeverityLevel.CRITICAL)
-    public void shouldSortByPriceHighToLow() {
-        Allure.step("Verify inventory page is loaded", () ->
-                Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.")
+    public void userShouldSeeProductsSortedByPriceHighToLow() {
+        Allure.step("Given the user is on the inventory page", () -> {
+            Assert.assertTrue(inventoryPage.isPageLoaded(), "Inventory page did not load successfully.");
+            Assert.assertTrue(inventoryPage.isShoppingCartDisplayed(), "Shopping cart icon is not displayed.");
+            Assert.assertTrue(inventoryPage.getInventoryItemCount() > 0, "Inventory item list should not be empty.");
+        });
+
+        Allure.step("When the user selects Price (high to low) sorting option", () ->
+                inventoryPage.selectSortOption(SortOption.PRICE_HIGH_TO_LOW)
         );
 
-        Allure.step("Select sorting option: Price (high to low)", () ->
-                inventoryPage.selectSortOption("Price (high to low)")
+        Allure.step("Then the selected sorting option value should be 'hilo'", () ->
+                Assert.assertEquals(
+                        inventoryPage.getSelectedSortOptionValue(),
+                        SortOption.PRICE_HIGH_TO_LOW.getValue(),
+                        "Selected sort option value is incorrect for Price (high to low)."
+                )
         );
 
-        List<Double> actualPrices = new ArrayList<>();
-        Allure.step("Get actual product prices from UI", () ->
-                actualPrices.addAll(inventoryPage.getItemPrices())
+        List<Double> actualPrices = inventoryPage.getItemPrices();
+
+        Allure.step("And the product prices list should not be empty", () ->
+                Assert.assertFalse(actualPrices.isEmpty(), "Product price list should not be empty.")
         );
 
-        List<Double> expectedPrices = new ArrayList<>(actualPrices);
-        Allure.step("Sort expected product prices in descending order", () ->
-                expectedPrices.sort(Comparator.reverseOrder())
-        );
+        List<Double> expectedPrices = SortUtils.sortDoublesDescending(actualPrices);
 
-        Allure.step("Verify actual product prices match expected descending order", () ->
-                Assert.assertEquals(actualPrices, expectedPrices, "Items are not sorted by price from high to low.")
+        Allure.step("And the actual product prices should match the expected descending order", () ->
+                Assert.assertEquals(
+                        actualPrices,
+                        expectedPrices,
+                        "Items are not sorted by price from high to low."
+                )
         );
     }
 }

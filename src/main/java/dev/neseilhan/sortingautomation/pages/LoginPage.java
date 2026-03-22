@@ -6,9 +6,10 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {
 
-    private final By usernameInput = By.cssSelector("#user-name");
-    private final By passwordInput = By.cssSelector("#password");
-    private final By loginButton = By.cssSelector("#login-button");
+    private final By usernameInput = By.cssSelector("[data-test='username']");
+    private final By passwordInput = By.cssSelector("[data-test='password']");
+    private final By loginButton = By.cssSelector("[data-test='login-button']");
+    private final By loginLogo = By.className("login_logo");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -16,6 +17,10 @@ public class LoginPage extends BasePage {
 
     public void open(String url) {
         driver.get(url);
+    }
+
+    public boolean isLoginPageLoaded() {
+        return waitForVisibility(loginLogo).isDisplayed();
     }
 
     public void enterUsername(String username) {

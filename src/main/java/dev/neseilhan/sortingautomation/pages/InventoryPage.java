@@ -1,6 +1,7 @@
 package dev.neseilhan.sortingautomation.pages;
 
 import dev.neseilhan.sortingautomation.base.BasePage;
+import dev.neseilhan.sortingautomation.constants.SortOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,17 +12,19 @@ import java.util.stream.Collectors;
 
 public class InventoryPage extends BasePage {
 
-    private final By pageTitle = By.xpath("//span[@class='title' and text()='Products']");
-    private final By sortDropdown = By.cssSelector(".product_sort_container");
-    private final By itemNames = By.cssSelector(".inventory_item_name");
-    private final By itemPrices = By.cssSelector(".inventory_item_price");
+    private final By productsTitle = By.cssSelector("[data-test='title']");
+    private final By sortDropdown = By.cssSelector("[data-test='product-sort-container']");
+    private final By inventoryItems = By.cssSelector("[data-test='inventory-item-description']");
+    private final By inventoryItemNames = By.cssSelector("[data-test='inventory-item-name']");
+    private final By inventoryItemPrices = By.cssSelector("[data-test='inventory-item-price']");
+    private final By shoppingCartLink = By.cssSelector("[data-test='shopping-cart-link']");
 
     public InventoryPage(WebDriver driver) {
         super(driver);
     }
 
     public boolean isPageLoaded() {
-        return waitForVisibility(pageTitle).isDisplayed();
+        return waitForVisibility(productsTitle).isDisplayed();
     }
 
     public void selectSortOption(String visibleText) {
@@ -30,19 +33,37 @@ public class InventoryPage extends BasePage {
         select.selectByVisibleText(visibleText);
     }
 
+    public void selectSortOption(SortOption sortOption) {
+        selectSortOption(sortOption.getVisibleText());
+    }
+
     public List<String> getItemNames() {
-        return waitForAllVisible(itemNames)
+        return waitForAllVisible(inventoryItemNames)
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
 
     public List<Double> getItemPrices() {
-        return waitForAllVisible(itemPrices)
+        return waitForAllVisible(inventoryItemPrices)
                 .stream()
                 .map(WebElement::getText)
                 .map(text -> text.replace("$", ""))
                 .map(Double::parseDouble)
                 .collect(Collectors.toList());
+    }
+
+    public int getInventoryItemCount() {
+        return waitForAllVisible(inventoryItems).size();
+    }
+
+    public String getSelectedSortOptionValue() {
+        WebElement dropdownElement = waitForVisibility(sortDropdown);
+        Select select = new Select(dropdownElement);
+        return select.getFirstSelectedOption().getDomAttribute("value");
+    }
+
+    public boolean isShoppingCartDisplayed() {
+        return waitForVisibility(shoppingCartLink).isDisplayed();
     }
 }

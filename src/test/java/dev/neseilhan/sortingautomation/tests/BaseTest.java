@@ -23,6 +23,11 @@ public class BaseTest {
 
         loginPage = new LoginPage(driver);
         loginPage.open(ConfigReader.getProperty("base.url"));
+
+        if (!loginPage.isLoginPageLoaded()) {
+            throw new IllegalStateException("Login page did not load successfully.");
+        }
+
         inventoryPage = loginPage.loginAs(
                 ConfigReader.getProperty("username"),
                 ConfigReader.getProperty("password")
@@ -33,4 +38,5 @@ public class BaseTest {
     public void tearDown() {
         DriverFactory.quitDriver();
     }
+
 }

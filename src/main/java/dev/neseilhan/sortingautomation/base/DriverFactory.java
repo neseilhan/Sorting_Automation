@@ -7,7 +7,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-
+/**
+ * Factory class for managing WebDriver instances.
+ *
+ * <p>Supports:
+ * - Chrome
+ * - Edge
+ *
+ * Uses ThreadLocal for parallel execution support.
+ *
+ * @author Nese Ilhan
+ * @version 1.0
+ */
 public class DriverFactory {
 
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
@@ -15,6 +26,12 @@ public class DriverFactory {
     private DriverFactory() {
     }
 
+
+    /**
+     * Initializes WebDriver based on browser type.
+     *
+     * @param browser browser name
+     */
     public static void initDriver(String browser) {
         WebDriver driver;
 
@@ -71,10 +88,18 @@ public class DriverFactory {
         return new EdgeDriver(options);
     }
 
+    /**
+     * Returns current thread WebDriver.
+     *
+     * @return WebDriver instance
+     */
     public static WebDriver getDriver() {
         return driverThreadLocal.get();
     }
 
+    /**
+     * Quits driver and removes from ThreadLocal.
+     */
     public static void quitDriver() {
         WebDriver driver = driverThreadLocal.get();
         if (driver != null) {

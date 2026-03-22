@@ -9,12 +9,31 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
+/**
+ * Base test class that handles WebDriver initialization and teardown.
+ *
+ * <p>This class is responsible for:
+ * - Initializing WebDriver based on the provided browser parameter
+ * - Navigating to the application URL
+ * - Performing login before each test
+ * - Quitting the driver after each test</p>
+ *
+ * <p>All test classes should extend this class.</p>
+ *
+ * @author Nese Ilhan
+ * @version 1.0
+ */
 public class BaseTest {
 
     protected WebDriver driver;
     protected LoginPage loginPage;
     protected InventoryPage inventoryPage;
 
+    /**
+     * Sets up the test environment before each test method.
+     *
+     * @param browser the browser type (chrome, edge)
+     */
     @Parameters("browser")
     @BeforeMethod
     public void setUp(String browser) {
@@ -34,6 +53,9 @@ public class BaseTest {
         );
     }
 
+    /**
+     * Closes the browser and cleans up driver after each test.
+     */
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         DriverFactory.quitDriver();

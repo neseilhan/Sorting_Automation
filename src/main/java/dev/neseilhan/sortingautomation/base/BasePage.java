@@ -2,6 +2,7 @@ package dev.neseilhan.sortingautomation.base;
 
 import dev.neseilhan.sortingautomation.utils.ConfigReader;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -47,5 +48,13 @@ public abstract class BasePage {
 
     protected String getText(By locator) {
         return waitForVisibility(locator).getText();
+    }
+
+    public void highlightElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "arguments[0].style.border='3px solid red'; arguments[0].style.backgroundColor='rgba(255,0,0,0.1)';",
+                element
+        );
     }
 }

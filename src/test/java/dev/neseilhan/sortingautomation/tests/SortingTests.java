@@ -2,6 +2,7 @@ package dev.neseilhan.sortingautomation.tests;
 
 import dev.neseilhan.sortingautomation.constants.SortOption;
 import dev.neseilhan.sortingautomation.listeners.TestListener;
+import dev.neseilhan.sortingautomation.utils.ScreenshotUtils;
 import dev.neseilhan.sortingautomation.utils.SortUtils;
 import io.qameta.allure.*;
 import org.testng.Assert;
@@ -39,6 +40,15 @@ public class SortingTests extends BaseTest {
         );
 
         List<String> actualNames = inventoryPage.getItemNames();
+//
+//        Allure.step("Highlight first item before assertion", () -> {
+//            ScreenshotUtils.takeScreenshotWithHighlight(
+//                    driver,
+//                    inventoryPage.getFirstItemNameElement(),
+//                    "Highlighted first product"
+//            );
+//        });
+//        Assert.fail("Intentional failure to test highlighted screenshot");
 
         Allure.step("And the product names list should not be empty", () ->
                 Assert.assertFalse(actualNames.isEmpty(), "Product name list should not be empty.")

@@ -44,6 +44,7 @@ public class InventoryPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
+
     public List<Double> getItemPrices() {
         return waitForAllVisible(inventoryItemPrices)
                 .stream()
@@ -65,5 +66,8 @@ public class InventoryPage extends BasePage {
 
     public boolean isShoppingCartDisplayed() {
         return waitForVisibility(shoppingCartLink).isDisplayed();
+    }
+    public WebElement getFirstItemNameElement() {
+        return waitForAllVisible(inventoryItemNames).get(0);
     }
 }

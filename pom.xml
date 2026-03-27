@@ -18,7 +18,6 @@
 
 		<selenium.version>4.29.0</selenium.version>
 		<testng.version>7.11.0</testng.version>
-		<webdrivermanager.version>5.9.2</webdrivermanager.version>
 		<allure.version>2.29.1</allure.version>
 	</properties>
 
@@ -34,12 +33,6 @@
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.github.bonigarcia</groupId>
-			<artifactId>webdrivermanager</artifactId>
-			<version>${webdrivermanager.version}</version>
 		</dependency>
 
 		<dependency>

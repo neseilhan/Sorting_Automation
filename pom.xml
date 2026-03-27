@@ -62,10 +62,20 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
-					<systemPropertyVariables>
-						<allure.results.directory>allure-results</allure.results.directory>
-					</systemPropertyVariables>
+					<systemProperties>
+						<property>
+							<name>allure.results.directory</name>
+							<value>${project.build.directory}/allure-results</value>
+						</property>
+					</systemProperties>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>io.qameta.allure</groupId>
+						<artifactId>allure-testng</artifactId>
+						<version>${allure.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

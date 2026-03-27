@@ -50,5 +50,7 @@ public class TestListener implements ITestListener {
         } catch (Exception e) {
             System.out.println("Listener success screenshot error: " + e.getMessage());
         }
+
     }
+
 }
